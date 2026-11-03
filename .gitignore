@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.venv/
+.env
+data/*.json
+data/*.db
+data/browser_profile/
+workspace/media/

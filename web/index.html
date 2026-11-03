@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RedGen Agent</title>
+<style>
+  :root{--bg:#0b0e14;--card:#141926;--line:#232b3d;--text:#e8edf7;--dim:#8b98b0;--accent:#2f7cf6}
+  *{box-sizing:border-box}
+  body{margin:0;font:15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text)}
+  header{display:flex;gap:8px;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5}
+  header b{font-size:16px}
+  header span{color:var(--dim);font-size:13px}
+  nav{display:flex;gap:6px;padding:10px 14px;flex-wrap:wrap}
+  nav button{background:var(--card);color:var(--dim);border:1px solid var(--line);padding:7px 14px;border-radius:20px;cursor:pointer;font-size:13px}
+  nav button.on{color:#fff;border-color:var(--accent);background:#16233c}
+  main{padding:0 14px 40px;max-width:860px;margin:0 auto}
+  section{display:none}
+  section.on{display:block}
+  .log{min-height:220px;max-height:58vh;overflow:auto;padding:8px 0}
+  .msg{padding:10px 14px;border-radius:14px;margin:8px 0;white-space:pre-wrap;word-wrap:break-word}
+  .me{background:#1d2740;margin-left:15%}
+  .ai{background:var(--card);border:1px solid var(--line);margin-right:8%}
+  .row{display:flex;gap:8px;margin-top:6px}
+  textarea,input,select{width:100%;background:var(--card);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:10px 12px;font:inherit}
+  textarea{resize:vertical;min-height:52px}
+  button.go{background:var(--accent);border:0;color:#fff;padding:11px 20px;border-radius:10px;font-weight:600;cursor:pointer}
+  button.sm{background:var(--card);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:7px 12px;cursor:pointer}
+  label{display:block;color:var(--dim);font-size:12px;margin:12px 0 4px;text-transform:uppercase;letter-spacing:.04em}
+  .grid{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+  .item{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin:8px 0;font-size:14px}
+  .dim{color:var(--dim);font-size:12px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><b>RedGen Agent</b><span id="status">checking…</span><span id="prov" class="dim"></span></header>
+<nav>
+  <button data-tab="chat" class="on">Chat</button>
+  <button data-tab="settings">Settings</button>
+  <button data-tab="memory">Memory</button>
+  <button data-tab="notes">Notes</button>
+  <button data-tab="jobs">Automations</button>
+</nav>
+<main>
+  <section id="chat" class="on">
+    <div class="log" id="log"></div>
+    <textarea id="input" placeholder="Type a task. Enter to send, Shift+Enter for a new line."></textarea>
+    <div class="row"><button class="go" id="send">Send</button><button class="sm" id="clear">New chat</button></div>
+  </section>
+
+  <section id="settings">
+    <div class="grid">
+      <div><label>Provider</label>
+        <select id="provider">
+          <option value="openrouter">OpenRouter</option>
+          <option value="groq">Groq</option>
+          <option value="gemini">Google Gemini</option>
+          <option value="custom">Custom / self-hosted</option>
+        </select></div>
+      <div><label>Model (any id you want)</label><input id="model" placeholder="gemini-2.0-flash or your own model id"></div>
+      <div><label>API base URL</label><input id="base_url" placeholder="https://…/v1"></div>
+      <div><label>API key for this provider</label><input id="api_key" type="password" placeholder="sk-… / gsk-… / AIza…"></div>
+      <div><label>Owner name</label><input id="owner_name"></div>
+      <div><label>Business</label><input id="business"></div>
+    </div>
+    <label>System prompt</label><textarea id="system_prompt" rows="5"></textarea>
+    <div class="grid">
+      <div><label>WhatsApp phone id</label><input id="whatsapp_phone_id"></div>
+      <div><label>WhatsApp token</label><input id="whatsapp_token" type="password"></div>
+      <div><label>Webhook verify token</label><input id="whatsapp_verify_token"></div>
+      <div><label>Allow only these numbers (comma)</label><input id="whatsapp_allow_from" placeholder="97798…"></div>
+    </div>
+    <div class="row"><button class="go" id="save">Save settings</button></div>
+    <p class="dim" id="saved"></p>
+  </section>
+
+  <section id="memory">
+    <div class="row"><input id="memq" placeholder="Search memory…"></div>
+    <div id="memlist"></div>
+    <label>Add a memory</label>
+    <textarea id="memnew" placeholder="Owner prefers websites in Nepali, billed in NPR…"></textarea>
+    <div class="row"><button class="sm" id="memadd">Save memory</button></div>
+  </section>
+
+  <section id="notes">
+    <div id="notelist"></div>
+    <label>Title</label><input id="notetitle">
+    <label>Body (markdown)</label><textarea id="notebody" rows="8"></textarea>
+    <div class="row"><button class="sm" id="notesave">Save note</button></div>
+  </section>
+
+  <section id="jobs">
+    <div id="joblist"></div>
+    <div class="grid">
+      <div><label>Name</label><input id="jname" placeholder="Morning brief"></div>
+      <div><label>Every (minutes)</label><input id="jevery" type="number" value="1440"></div>
+      <div><label>Channel</label><select id="jchannel"><option>chat</option><option>whatsapp</option></select></div>
+      <div><label>WhatsApp number</label><input id="jtarget" placeholder="97798…"></div>
+    </div>
+    <label>Prompt to run</label><textarea id="jprompt" rows="3" placeholder="Summarise new leads and send them to me"></textarea>
+    <div class="row"><button class="sm" id="jadd">Create automation</button></div>
+  </section>
+</main>
+<script>
+const $ = (s) => document.querySelector(s);
+let conversation = 'web-' + Math.random().toString(36).slice(2, 8);
+
+document.querySelectorAll('nav button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('nav button').forEach(x => x.classList.toggle('on', x === b));
+  document.querySelectorAll('section').forEach(s => s.classList.toggle('on', s.id === b.dataset.tab));
+});
+
+function addMsg(kind, text) {
+  const d = document.createElement('div');
+  d.className = 'msg ' + kind;
+  d.textContent = text;
+  $('#log').appendChild(d);
+  $('#log').scrollTop = $('#log').scrollHeight;
+}
+
+async function send() {
+  const text = $('#input').value.trim();
+  if (!text) return;
+  $('#input').value = '';
+  addMsg('me', text);
+  addMsg('ai', '…');
+  const bubble = $('#log').lastChild;
+  try {
+    const r = await fetch('/api/chat', {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({message: text, conversation_id: conversation})
+    });
+    const data = await r.json();
+    bubble.textContent = data.reply || data.detail || 'error';
+  } catch (e) { bubble.textContent = 'network error: ' + e; }
+}
+$('#send').onclick = send;
+$('#input').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+});
+$('#clear').onclick = () => { conversation = 'web-' + Math.random().toString(36).slice(2, 8); $('#log').innerHTML = ''; };
+
+const FIELDS = ['model','base_url','api_key','owner_name','business','system_prompt','whatsapp_phone_id','whatsapp_token','whatsapp_verify_token','whatsapp_allow_from'];
+let PRESETS = {}, PROVIDERS = {}, ACTIVE = 'openrouter';
+
+function fillProvider(name) {
+  const saved = PROVIDERS[name] || {};
+  const preset = PRESETS[name] || {};
+  $('#model').value = saved.model || preset.model || '';
+  $('#base_url').value = saved.base_url || preset.base_url || '';
+  $('#api_key').value = saved.api_key === '***set***' ? '' : (saved.api_key || '');
+  $('#api_key').placeholder = saved.api_key === '***set***' ? 'saved, leave blank to keep' : 'paste key for ' + name;
+  $('#prov').textContent = name + (preset.model ? ' · ' + (saved.model || preset.model) : '');
+}
+
+async function loadSettings() {
+  const s = await (await fetch('/api/settings')).json();
+  PRESETS = s.presets || {};
+  PROVIDERS = s.providers || {};
+  ACTIVE = s.active_provider || 'openrouter';
+  $('#provider').value = ACTIVE;
+  fillProvider(ACTIVE);
+  ['owner_name','business','system_prompt','whatsapp_phone_id','whatsapp_token','whatsapp_verify_token','whatsapp_allow_from'].forEach(f => {
+    if ($('#' + f)) $('#' + f).value = s[f] === '***set***' ? '' : (s[f] ?? '');
+  });
+  $('#status').textContent = s.api_key ? 'ready' : 'needs API key';
+  $('#prov').textContent = ACTIVE + ' · ' + (s.model || '');
+}
+
+$('#provider').onchange = (e) => {
+  PROVIDERS[ACTIVE] = {
+    model: $('#model').value, base_url: $('#base_url').value,
+    api_key: $('#api_key').value || PROVIDERS[ACTIVE]?.api_key
+  };
+  ACTIVE = e.target.value;
+  fillProvider(ACTIVE);
+};
+
+$('#save').onclick = async () => {
+  const body = {active_provider: ACTIVE};
+  ['model','base_url','api_key'].forEach(f => { const v = $('#' + f).value.trim(); if (v !== '') body[f] = v; });
+  ['owner_name','business','system_prompt','whatsapp_phone_id','whatsapp_token','whatsapp_verify_token','whatsapp_allow_from'].forEach(f => {
+    const v = $('#' + f).value; if (v !== '') body[f] = v;
+  });
+  await fetch('/api/settings', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)});
+  $('#saved').textContent = 'saved';
+  loadSettings();
+};
+
+async function loadMemory(q) {
+  const data = await (await fetch('/api/memory' + (q ? '?q=' + encodeURIComponent(q) : ''))).json();
+  const box = $('#memlist');
+  box.innerHTML = '';
+  (data.memories || []).forEach(m => {
+    const d = document.createElement('div');
+    d.className = 'item';
+    d.innerHTML = '<div>' + m.content.replace(/[<>&]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[c])) + '</div>' +
+      '<div class="dim">' + m.category + ' · ' + m.kind + ' <button class="sm" data-id="' + m.id + '">forget</button></div>';
+    d.querySelector('button').onclick = async () => { await fetch('/api/memory/' + m.id, {method: 'DELETE'}); loadMemory($('#memq').value); };
+    box.appendChild(d);
+  });
+}
+$('#memq').oninput = () => loadMemory($('#memq').value);
+$('#memadd').onclick = async () => {
+  const content = $('#memnew').value.trim(); if (!content) return;
+  await fetch('/api/memory', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({content})});
+  $('#memnew').value = ''; loadMemory();
+};
+
+async function loadNotes() {
+  const data = await (await fetch('/api/notes')).json();
+  const box = $('#notelist');
+  box.innerHTML = '';
+  (data.notes || []).forEach(n => {
+    const d = document.createElement('div');
+    d.className = 'item';
+    d.textContent = n;
+    d.onclick = async () => {
+      const note = await (await fetch('/api/notes/' + encodeURIComponent(n))).json();
+      $('#notetitle').value = n.replace(/\.md$/, '');
+      $('#notebody').value = note.body || '';
+    };
+    box.appendChild(d);
+  });
+}
+$('#notesave').onclick = async () => {
+  const title = $('#notetitle').value.trim(); if (!title) return;
+  await fetch('/api/notes', {method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({title, body: $('#notebody').value})});
+  loadNotes();
+};
+
+async function loadJobs() {
+  const data = await (await fetch('/api/automations')).json();
+  const box = $('#joblist');
+  box.innerHTML = '';
+  (data.automations || []).forEach(j => {
+    const d = document.createElement('div');
+    d.className = 'item';
+    d.innerHTML = '<b>' + j.name + '</b> · every ' + j.every_minutes + ' min · ' + j.channel +
+      '<div class="dim">' + (j.prompt || '').slice(0, 160) + '</div>' +
+      '<button class="sm" data-id="' + j.id + '">delete</button>';
+    d.querySelector('button').onclick = async () => { await fetch('/api/automations/' + j.id, {method: 'DELETE'}); loadJobs(); };
+    box.appendChild(d);
+  });
+}
+$('#jadd').onclick = async () => {
+  const body = {name: $('#jname').value || 'job', prompt: $('#jprompt').value,
+    every_minutes: Number($('#jevery').value) || 60, channel: $('#jchannel').value, target: $('#jtarget').value};
+  await fetch('/api/automations', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)});
+  $('#jname').value = ''; $('#jprompt').value = ''; loadJobs();
+};
+
+loadSettings(); loadMemory(); loadNotes(); loadJobs();
+fetch('/api/health').then(r => r.json()).then(h => {
+  $('#status').textContent = (h.key_set ? 'ready' : 'needs API key') + ' · ' + h.model;
+}).catch(() => {});
+</script>
+</body>
+</html>

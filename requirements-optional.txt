@@ -1,0 +1,5 @@
+# Real browser control (heavy, ~300MB with Chromium)
+playwright==1.49.0
+# Media: voice (free, no key) + image cards
+edge-tts==7.0.0
+pillow==11.0.0
