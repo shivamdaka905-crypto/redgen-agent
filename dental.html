@@ -1,56 +1,162 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bright Smile Dental — Kathmandu</title>
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bright Smile Dental — Baneshwor, Kathmandu</title>
 <style>
-*{box-sizing:border-box;margin:0}
-body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;color:#12202b;background:#fff;line-height:1.55}
-.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
-header{position:sticky;top:0;background:#fffffff2;backdrop-filter:blur(8px);border-bottom:1px solid #eef2f5;z-index:9}
-.bar{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
-.logo{font-weight:800;letter-spacing:-.3px;font-size:19px}
-.logo span{color:#0f9f7a}
-.call{background:#0f9f7a;color:#fff;padding:11px 18px;border-radius:99px;text-decoration:none;font-weight:700;font-size:14px}
-.hero{padding:54px 0 46px;background:radial-gradient(900px 380px at 80% -10%,#e8f8f2,transparent)}
-h1{font-size:clamp(30px,5.4vw,50px);line-height:1.1;letter-spacing:-1.2px}
-h1 em{font-style:normal;color:#0f9f7a}
-.sub{margin-top:16px;font-size:17px;color:#4a5b68;max-width:560px}
-.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
-.btn{display:inline-flex;align-items:center;gap:9px;padding:15px 22px;border-radius:12px;font-weight:700;text-decoration:none;font-size:15px}
-.btn.p{background:#0f9f7a;color:#fff}
-.btn.s{background:#fff;color:#12202b;border:1px solid #dbe4ea}
-.badges{display:flex;gap:20px;flex-wrap:wrap;margin-top:34px;color:#5b6b78;font-size:14px}
-.badges b{color:#12202b}
-section{padding:46px 0;border-top:1px solid #f0f4f7}
-h2{font-size:26px;letter-spacing:-.6px;margin-bottom:20px}
-.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
-.card{border:1px solid #e9eff3;border-radius:16px;padding:20px;background:#fcfdfe}
-.card h3{font-size:16px;margin-bottom:6px}
-.card p{font-size:14px;color:#5b6b78}
-.card .pr{margin-top:10px;font-weight:800;color:#0f9f7a;font-size:15px}
-.book{background:#12202b;color:#fff;border-radius:20px;padding:34px;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
-.book h2{color:#fff;margin:0 0 6px}
-.book p{color:#b9c7d1;font-size:14px}
-footer{padding:26px 0 44px;color:#7b8b98;font-size:13px;text-align:center}
+:root{--ink:#0d2b28;--ink2:#48605d;--teal:#0f766e;--mint:#d7f5ec;--cream:#fbf9f4;--line:#e5e7e3}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;color:var(--ink);background:var(--cream);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+header{position:sticky;top:0;z-index:50;background:rgba(251,249,244,.84);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:70px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.3px}
+.mark{width:34px;height:34px;border-radius:11px;background:linear-gradient(145deg,#0f766e,#14b8a6);display:grid;place-items:center;color:#fff}
+.links{display:flex;gap:26px;font-size:14.5px;color:var(--ink2)}
+.links a{position:relative;padding:4px 0}
+.links a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--teal);transition:width .35s}
+.links a:hover::after{width:100%}
+.cta{background:var(--teal);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:14.5px;box-shadow:0 8px 22px rgba(15,118,110,.25);transition:transform .3s,box-shadow .3s}
+.cta:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(15,118,110,.32)}
+.hero{padding:84px 0 66px;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);padding:7px 14px;border-radius:999px;font-size:13px;color:var(--teal);font-weight:600}
+.dot{width:7px;height:7px;border-radius:50%;background:#14b8a6;box-shadow:0 0 0 4px rgba(20,184,166,.15);animation:pulse 2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 9px rgba(20,184,166,0)}}
+h1{font-size:clamp(33px,5vw,56px);line-height:1.04;letter-spacing:-2px;margin:20px 0 16px;font-weight:800}
+h1 em{font-style:normal;color:var(--teal);box-shadow:inset 0 -.28em 0 var(--mint)}
+.lead{color:var(--ink2);font-size:17px;line-height:1.65;max-width:46ch}
+.row{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:14px 24px;border-radius:999px;font-weight:650;font-size:15px;transition:transform .25s,box-shadow .25s}
+.btn.p{background:var(--teal);color:#fff;box-shadow:0 10px 26px rgba(15,118,110,.28)}
+.btn.p:hover{transform:translateY(-2px)}
+.btn.s{background:#fff;border:1px solid var(--line);color:var(--ink)}
+.btn.s:hover{border-color:var(--teal);color:var(--teal)}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 18px 50px rgba(13,43,40,.07)}
+.heroimg{position:relative}
+.heroimg .card{padding:0;overflow:hidden}
+.heroimg .shot{aspect-ratio:4/3;background:linear-gradient(145deg,#0f766e,#14b8a6 55%,#a7f3d0);position:relative}
+.heroimg .shot span{position:absolute;left:22px;bottom:20px;color:#fff;font-weight:700;font-size:18px;letter-spacing:-.4px;text-shadow:0 2px 12px rgba(0,0,0,.25)}
+.float{position:absolute;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 16px;font-size:13.5px;font-weight:600;box-shadow:0 14px 34px rgba(13,43,40,.13);animation:float 5s ease-in-out infinite}
+.float.a{top:-16px;right:-6px}.float.b{bottom:28px;left:-18px;animation-delay:1.4s}
+@keyframes float{50%{transform:translateY(-9px)}}
+section{padding:74px 0}
+.sec-head{max-width:620px;margin-bottom:38px}
+.kicker{color:var(--teal);font-weight:700;font-size:13px;letter-spacing:1.4px;text-transform:uppercase}
+h2{font-size:clamp(26px,3.6vw,40px);letter-spacing:-1.2px;margin:12px 0 10px;line-height:1.1}
+.sec-head p{color:var(--ink2);line-height:1.65;margin:0}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.svc{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px 22px;transition:transform .35s,box-shadow .35s,border-color .35s}
+.svc:hover{transform:translateY(-6px);box-shadow:0 22px 44px rgba(13,43,40,.1);border-color:#c7e7e0}
+.ico{width:46px;height:46px;border-radius:14px;background:var(--mint);display:grid;place-items:center;font-size:20px;margin-bottom:14px}
+.svc h3{margin:0 0 8px;font-size:18px;letter-spacing:-.3px}
+.svc p{margin:0;color:var(--ink2);font-size:14.6px;line-height:1.6}
+.wave{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;text-align:center}
+.stats div{padding:10px}
+.stats b{display:block;font-size:clamp(26px,3vw,36px);letter-spacing:-1.4px;color:var(--teal)}
+.stats span{color:var(--ink2);font-size:13.5px}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.quote{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.q{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;font-size:14.6px;line-height:1.65;color:var(--ink2)}
+.q b{display:block;color:var(--ink);margin-top:12px;font-size:14px}
+.stars{color:#f59e0b;letter-spacing:2px;margin-bottom:8px}
+.dark{background:linear-gradient(160deg,#0d2b28,#12403a);color:#eafaf6}
+.dark h2,.dark .kicker{color:#fff}.dark .kicker{color:#7ee0cd}.dark p{color:#b8d2cd}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:6px}
+.plan{border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:24px;background:rgba(255,255,255,.05)}
+.plan.hot{background:#fff;color:var(--ink);border-color:#fff;transform:scale(1.03)}
+.plan h3{margin:0 0 6px;font-size:17px}.plan .price{font-size:30px;letter-spacing:-1.2px;font-weight:800;margin:8px 0 14px}
+.plan ul{margin:0;padding-left:18px;font-size:14px;line-height:1.85}
+.plan .btn{width:100%;justify-content:center;margin-top:16px}
+details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:10px}
+summary{cursor:pointer;font-weight:650;font-size:15.5px;list-style:none}
+summary::-webkit-details-marker{display:none}
+details p{color:var(--ink2);margin:10px 0 0;font-size:14.6px;line-height:1.65}
+.cta-band{display:flex;align-items:center;justify-content:space-between;gap:22px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:34px;box-shadow:0 24px 60px rgba(13,43,40,.09)}
+footer{padding:36px 0;color:var(--ink2);font-size:14px;border-top:1px solid var(--line)}
+footer .f{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.wa{position:fixed;right:18px;bottom:18px;z-index:60;display:flex;align-items:center;gap:10px;background:#25D366;color:#fff;padding:14px 20px;border-radius:999px;font-weight:700;box-shadow:0 14px 34px rgba(37,211,102,.4);animation:pulse2 2.6s infinite}
+@keyframes pulse2{50%{box-shadow:0 14px 34px rgba(37,211,102,.18)}}
+@media(max-width:880px){.hero{grid-template-columns:1fr;padding:56px 0 40px}.grid3,.quote,.plans{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.links{display:none}.cta-band{flex-direction:column;text-align:center}}
 </style></head><body>
-<header><div class="wrap bar"><div class="logo">Bright<span>Smile</span> Dental</div>
-<a class="call" href="tel:+9779800000000">Call now</a></div></header>
-<div class="hero"><div class="wrap">
-<h1>Kathmandu ka <em>family dental clinic</em> — same-day appointment.</h1>
-<p class="sub">Painless cleaning, fillings, braces and kids' dentistry in Baneshwor. Booked in 2 taps on WhatsApp, no waiting line.</p>
-<div class="cta">
-<a class="btn p" href="https://wa.me/9779800000000?text=Hi%2C%20I%20want%20to%20book%20a%20dental%20appointment">Book on WhatsApp</a>
-<a class="btn s" href="tel:+9779800000000">Click to call</a></div>
-<div class="badges"><span><b>4.9★</b> 260+ patients</span><span><b>12 yrs</b> experience</span><span><b>Open</b> 8am–7pm</span><span><b>Sun–Fri</b> Baneshwor</span></div>
+<header><div class="wrap"><nav>
+  <div class="logo"><span class="mark">✦</span> Bright Smile Dental</div>
+  <div class="links"><a href="#services">Treatments</a><a href="#why">Why us</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></div>
+  <a class="cta" href="#book">Book a visit</a>
+</nav></div></header>
+
+<div class="wrap"><div class="hero">
+  <div>
+    <span class="eyebrow"><span class="dot"></span> Open today · 9 AM – 7 PM</span>
+    <h1>Dental care that <em>doesn't hurt</em> your day.</h1>
+    <p class="lead">Modern, gentle dentistry in New Baneshwor. Same-day appointments, transparent pricing, and a doctor who explains every step before touching anything.</p>
+    <div class="row">
+      <a class="btn p" href="#book">Book on WhatsApp →</a>
+      <a class="btn s" href="tel:+9779800000000">☎ Call the clinic</a>
+    </div>
+    <p class="lead" style="margin-top:20px;font-size:14px">★★★★★ 4.8 · 210 patient reviews · 12 years in Kathmandu</p>
+  </div>
+  <div class="heroimg">
+    <div class="card"><div class="shot"><span>Painless root canal<br>in one sitting</span></div></div>
+    <div class="float a">🦷 Same-day appointment</div>
+    <div class="float b">💳 Cash · eSewa · Khalti</div>
+  </div>
 </div></div>
-<section><div class="wrap"><h2>Treatments</h2><div class="grid">
-<div class="card"><h3>Scaling &amp; cleaning</h3><p>Ultrasonic cleaning, stain removal, fluoride finish in one sitting.</p><div class="pr">NPR 1,500</div></div>
-<div class="card"><h3>Tooth filling</h3><p>Tooth-coloured composite filling, painless, done in 40 minutes.</p><div class="pr">NPR 2,000</div></div>
-<div class="card"><h3>Braces &amp; aligners</h3><p>Metal, ceramic and clear aligner options with a full treatment plan.</p><div class="pr">From NPR 55,000</div></div>
-<div class="card"><h3>Root canal (RCT)</h3><p>Single-visit RCT with rotary endodontics and digital X-ray.</p><div class="pr">NPR 6,500</div></div>
-<div class="card"><h3>Kids' dentistry</h3><p>Gentle checkups, sealants and habit counselling for children.</p><div class="pr">NPR 1,000</div></div>
-<div class="card"><h3>Teeth whitening</h3><p>In-clinic bleaching, visible result in a single visit.</p><div class="pr">NPR 8,000</div></div>
-</div></div></section>
-<section><div class="wrap"><div class="book"><div><h2>Book today, come today</h2><p>Baneshwor, Kathmandu · Sun–Fri 8am–7pm · Emergency slots after 7pm</p></div>
-<a class="btn p" href="https://wa.me/9779800000000?text=Hi%2C%20I%20want%20to%20book%20a%20dental%20appointment">Book on WhatsApp</a></div></div></section>
-<footer>Bright Smile Dental · Baneshwor, Kathmandu · 9800000000<br>Demo site by RED GEN DEVELOPMENT</footer>
+
+<div class="wave"><div class="wrap"><section style="padding:32px 0"><div class="stats reveal">
+  <div><b>12+</b><span>Years in Baneshwor</span></div>
+  <div><b>9,400</b><span>Patients treated</span></div>
+  <div><b>4.8★</b><span>Google rating</span></div>
+  <div><b>1 day</b><span>Average booking</span></div>
+</div></section></div></div>
+<div class="wrap"><section id="services">
+  <div class="sec-head reveal"><p class="kicker">Treatments</p><h2>Everything your teeth need, under one roof</h2>
+  <p>No referrals to other clinics. Diagnosis, cleaning, fillings and surgery happen here.</p></div>
+  <div class="grid3">
+    <div class="svc reveal"><div class="ico">🪥</div><h3>Scaling &amp; cleaning</h3><p>Ultrasonic cleaning, polishing and stain removal in one 40-minute visit.</p></div>
+    <div class="svc reveal"><div class="ico">😬</div><h3>Braces &amp; aligners</h3><p>Metal, ceramic and clear aligners with monthly plans that fit a student budget.</p></div>
+    <div class="svc reveal"><div class="ico">🔩</div><h3>Implants</h3><p>Single tooth to full arch, with CBCT planning and a 5-year warranty.</p></div>
+    <div class="svc reveal"><div class="ico">✨</div><h3>Teeth whitening</h3><p>In-clinic whitening, up to 4 shades brighter in 60 minutes.</p></div>
+    <div class="svc reveal"><div class="ico">🩹</div><h3>Painless root canal</h3><p>Single-sitting RCT with rotary files and digital X-ray.</p></div>
+    <div class="svc reveal"><div class="ico">👶</div><h3>Kids dentistry</h3><p>Gentle check-ups, fluoride and sealants for children from 3 years.</p></div>
+  </div>
+</section></div>
+
+<div class="wrap"><section id="why">
+  <div class="sec-head reveal"><p class="kicker">Why patients stay</p><h2>Clear prices before treatment, always</h2></div>
+  <div class="quote">
+    <div class="q reveal"><div class="stars">★★★★★</div>I had a root canal here after two clinics quoted double. Doctor explained every step, and it genuinely did not hurt. <b>Sabina K. · Baneshwor</b></div>
+    <div class="q reveal"><div class="stars">★★★★★</div>Booked on WhatsApp at night, got a slot next morning. Clean clinic, no waiting for hours. <b>Ramesh T. · Koteshwor</b></div>
+    <div class="q reveal"><div class="stars">★★★★★</div>My daughter was terrified of dentists. They let her hold the mirror and now she asks to go. <b>Priya M. · Sinamangal</b></div>
+  </div>
+</section></div>
+<div class="dark"><div class="wrap"><section id="pricing">
+  <div class="sec-head reveal"><p class="kicker">Pricing</p><h2>No surprise bills</h2><p>Consultation is free. You get a written estimate before any treatment starts.</p></div>
+  <div class="plans reveal">
+    <div class="plan"><h3>Check-up</h3><div class="price">NPR 500</div><ul><li>Full oral exam</li><li>Digital X-ray</li><li>Cleaning advice</li></ul><a class="btn s" href="#book">Book</a></div>
+    <div class="plan hot"><h3>Cleaning + polishing</h3><div class="price">NPR 1,500</div><ul><li>Ultrasonic scaling</li><li>Stain removal</li><li>Free re-check in 7 days</li></ul><a class="btn p" href="#book">Book now</a></div>
+    <div class="plan"><h3>Root canal</h3><div class="price">NPR 6,500</div><ul><li>Single sitting</li><li>Rotary + digital X-ray</li><li>Crown fitting included</li></ul><a class="btn s" href="#book">Book</a></div>
+  </div>
+</section></div></div>
+
+<div class="wrap"><section id="faq">
+  <div class="sec-head reveal"><p class="kicker">FAQ</p><h2>Questions patients ask before booking</h2></div>
+  <details class="reveal"><summary>Do I need an appointment or can I walk in?</summary><p>Walk-ins are welcome before 4 PM, but WhatsApp bookings get the first slot and skip the queue.</p></details>
+  <details class="reveal"><summary>Is treatment painful?</summary><p>We use topical numbing gel before every injection, and most patients rate discomfort at 1 out of 10.</p></details>
+  <details class="reveal"><summary>Do you take insurance?</summary><p>Yes, we provide itemised bills for office reimbursement and accept eSewa, Khalti and cards.</p></details>
+</section></div>
+
+<div class="wrap"><section id="book">
+  <div class="cta-band reveal">
+    <div><h2 style="margin:0 0 8px">Ready for a check-up?</h2><p style="margin:0;color:var(--ink2);line-height:1.6">Send one WhatsApp message. We confirm the slot in minutes.</p></div>
+    <a class="btn p" href="https://wa.me/9779800000000?text=Hi%20Bright%20Smile,%20I%20would%20like%20to%20book%20an%20appointment">Book on WhatsApp →</a>
+  </div>
+</section></div>
+
+<footer><div class="wrap f"><span>© Bright Smile Dental · New Baneshwor, Kathmandu</span><span>Open 9 AM–7 PM · 01-4000000</span></div></footer>
+<a class="wa" href="https://wa.me/9779800000000?text=Hi%20Bright%20Smile,%20I%20would%20like%20to%20book%20an%20appointment">💬 WhatsApp</a>
+<script>
+const io=new IntersectionObserver(es=>es.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('in'),i*70);io.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -60px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
 </body></html>
