@@ -105,8 +105,54 @@ async def go_back():
     return f"url: {page.url}"
 
 
+THUM_FALLBACK = "https://image.thum.io/get/width/1280/crop/900/noanimate/{url}"
+
+
+async def _fallback_shot(url):
+    """No Playwright? Still take a real screenshot through a public render service."""
+    import time as _t
+    import httpx
+    shots = store.WORKSPACE / "screens"
+    shots.mkdir(parents=True, exist_ok=True)
+    name = f"shot-{int(_t.time() * 1000)}.png"
+    async with httpx.AsyncClient(timeout=90, follow_redirects=True) as client:
+        resp = await client.get(THUM_FALLBACK.format(url=url))
+        resp.raise_for_status()
+        (shots / name).write_bytes(resp.content)
+    return {"screenshot": f"screens/{name}", "url": f"/api/screens/{name}", "engine": "render-service"}
+
+
+async def browse_page(url, chars=5000):
+    """Read a page and screenshot it. Works with or without a local browser."""
+    import json as _json
+    import re
+    import httpx
+    text, title = "", ""
+    try:
+        async with httpx.AsyncClient(timeout=45, follow_redirects=True,
+                                     headers={"User-Agent": "Mozilla/5.0 (RedGenAgent)"}) as client:
+            resp = await client.get(url)
+            html = resp.text
+        m = re.search(r"<title[^>]*>(.*?)</title>", html, re.S | re.I)
+        title = (m.group(1).strip() if m else "").strip()
+        html = re.sub(r"(?is)<(script|style|noscript|svg)[^>]*>.*?</\1>", " ", html)
+        text = re.sub(r"(?s)<[^>]+>", " ", html)
+        text = re.sub(r"\s+", " ", text).strip()[:chars]
+    except Exception as exc:
+        text = f"fetch failed: {exc}"
+    try:
+        shot = await screenshot_url(url)
+    except Exception as exc:
+        shot = {"error": f"screenshot failed: {exc}"}
+    return _json.dumps({"title": title, "url": url, "screenshot": shot, "text": text}, ensure_ascii=False)
+
+
 async def screenshot_url(url):
     """One-shot: open a URL, wait for it to settle, keep the screenshot."""
+    try:
+        _need_playwright()
+    except Exception:
+        return await _fallback_shot(url)
     page = await _page()
     await page.goto(url, wait_until="domcontentloaded", timeout=60000)
     await page.wait_for_timeout(2500)
@@ -142,6 +188,8 @@ SCHEMAS = [
     _spec("browser_press", "Press a key or chord, e.g. Enter, Tab, Control+A.", {"keys": {"type": "string"}}, ["keys"]),
     _spec("browser_back", "Go back one page.", {}),
     _spec("browser_close", "Close the browser and free memory.", {}),
+    _spec("browse_page", "Read a page (title + text) AND save its screenshot. Use this first when looking at a site.",
+          {"url": {"type": "string"}, "chars": {"type": "number"}}, ["url"]),
     _spec("screenshot_url", "Open a URL and save a screenshot of it.",
           {"url": {"type": "string"}}, ["url"]),
 ]
@@ -154,5 +202,6 @@ HANDLERS = {
     "browser_press": press,
     "browser_back": go_back,
     "browser_close": close,
+    "browse_page": browse_page,
     "screenshot_url": screenshot_url,
 }

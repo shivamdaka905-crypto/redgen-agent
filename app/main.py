@@ -214,3 +214,8 @@ async def media_file(name: str):
     if not path.exists():
         raise HTTPException(status_code=404, detail="not found")
     return FileResponse(path)
+
+
+@app.get("/api/events")
+async def api_events(conversation_id: str = "main", since: float = 0):
+    return {"events": store.list_events(conversation_id, since)}

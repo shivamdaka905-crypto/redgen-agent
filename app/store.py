@@ -157,6 +157,9 @@ def public_settings():
         "providers": providers,
         "presets": {k: {"base_url": v["base_url"], "model": v["model"], "label": v["label"]}
                     for k, v in PROVIDER_PRESETS.items()},
+        "owner_name": s.get("owner_name", ""),
+        "business": s.get("business", ""),
+        "system_prompt": s.get("system_prompt", ""),
         "query": "Use whichever of OpenRouter / Groq / Gemini / custom you save a key for; the active one drives every task. Switch any time, or type any model id you like.",
     }
 
@@ -298,3 +301,27 @@ def finish_automation(aid, result, every_minutes):
 def delete_automation(aid):
     with conn() as c:
         c.execute("DELETE FROM automations WHERE id=?", (aid,))
+
+
+EVENTS_DDL = """CREATE TABLE IF NOT EXISTS events (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  conversation TEXT, ts REAL, kind TEXT, name TEXT, detail TEXT)"""
+
+
+def add_event(conversation, kind, name, detail=""):
+    c = conn()
+    c.execute(EVENTS_DDL)
+    c.execute("INSERT INTO events (conversation, ts, kind, name, detail) VALUES (?,?,?,?,?)",
+              (conversation, time.time(), kind, name or "", (detail or "")[:4000]))
+    c.commit()
+    c.close()
+
+
+def list_events(conversation, since=0.0, limit=200):
+    c = conn()
+    c.execute(EVENTS_DDL)
+    rows = c.execute(
+        "SELECT id, ts, kind, name, detail FROM events WHERE conversation=? AND ts>? ORDER BY id ASC LIMIT ?",
+        (conversation, float(since or 0), limit)).fetchall()
+    c.close()
+    return [dict(r) for r in rows]

@@ -1,7 +1,13 @@
-"""The agent loop: system prompt + memory -> model -> tools -> answer."""
+"""The agent loop: system prompt + memory -> model -> tools -> answer.
+
+Every step is written to the event log so the UI can show live activity:
+what tool ran, with which arguments, and what came back (including screenshots).
+"""
 import json
 
 from . import llm, store, tools
+
+PREVIEW_TOOLS = {"screenshot_url", "browse_page", "browser_open", "browser_click", "browser_type"}
 
 
 def build_system_prompt():
@@ -16,14 +22,21 @@ def build_system_prompt():
         f"Knowledge notes available: {notes}\n"
         "Guidelines: prefer acting over asking; use tools for anything factual, numeric or external; "
         "keep the final answer short and lead with the result; save durable facts with save_memory when the "
-        "owner states a lasting preference; never invent data."
+        "owner states a lasting preference; never invent data. "
+        "When you look at a website, call browse_page (text + screenshot) so the owner can see the page too."
     )
+
+
+def _short(value, limit=1400):
+    text = value if isinstance(value, str) else json.dumps(value, ensure_ascii=False)
+    return text[:limit]
 
 
 async def run_turn(conversation, user_text, max_rounds=None):
     s = store.load_settings()
     rounds = int(max_rounds or s.get("max_tool_rounds") or 8)
     store.add_message(conversation, "user", user_text)
+    store.add_event(conversation, "think", "reading context", "")
     history = store.get_messages(conversation, 24)
     messages = [{"role": "system", "content": build_system_prompt()}] + history
 
@@ -33,18 +46,25 @@ async def run_turn(conversation, user_text, max_rounds=None):
         if not calls:
             text = (message.get("content") or "").strip()
             store.add_message(conversation, "assistant", text)
+            store.add_event(conversation, "answer", "reply", text[:400])
             return text
         messages.append({"role": "assistant", "content": message.get("content") or "", "tool_calls": calls})
         for call in calls:
             fn = call.get("function", {})
-            result = await tools.call(fn.get("name"), fn.get("arguments"))
+            name = fn.get("name")
+            raw_args = fn.get("arguments")
+            store.add_event(conversation, "tool", name, _short(raw_args, 600))
+            try:
+                result = await tools.call(name, raw_args)
+            except Exception as exc:  # never kill the turn because one tool failed
+                result = f"{name} failed: {exc}"
+            store.add_event(conversation, "result", name, _short(result))
             messages.append({
                 "role": "tool",
                 "tool_call_id": call.get("id"),
                 "content": result[:8000],
             })
-        store.add_message(conversation, "assistant", json.dumps(
-            [c.get("function", {}).get("name") for c in calls]))
     fallback = "I stopped after too many tool rounds. Tell me the next single step."
     store.add_message(conversation, "assistant", fallback)
+    store.add_event(conversation, "answer", "reply", fallback)
     return fallback
