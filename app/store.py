@@ -325,3 +325,10 @@ def list_events(conversation, since=0.0, limit=200):
         (conversation, float(since or 0), limit)).fetchall()
     c.close()
     return [dict(r) for r in rows]
+
+
+CURRENT = {"conv": "main"}
+
+
+def set_conversation(cid):
+    CURRENT["conv"] = cid or "main"

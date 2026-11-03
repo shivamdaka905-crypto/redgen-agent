@@ -3,10 +3,12 @@
 Every step is written to the event log so the UI can show live activity:
 what tool ran, with which arguments, and what came back (including screenshots).
 """
+import asyncio
 import json
 
 from . import llm, store, tools
 
+TOOL_TIMEOUT = 150
 PREVIEW_TOOLS = {"screenshot_url", "browse_page", "browser_open", "browser_click", "browser_type"}
 
 
@@ -23,7 +25,10 @@ def build_system_prompt():
         "Guidelines: prefer acting over asking; use tools for anything factual, numeric or external; "
         "keep the final answer short and lead with the result; save durable facts with save_memory when the "
         "owner states a lasting preference; never invent data. "
-        "When you look at a website, call browse_page (text + screenshot) so the owner can see the page too."
+        "When you look at a website, call browse_page (text + screenshot) so the owner can see the page too. "
+        "For local business lists (clinics, gyms, salons...), call lead_finder with the city instead of guessing; "
+        "it scans the map, fills phone numbers, and returns a PDF + CSV link the owner can download. "
+        "Never claim a business has no website unless the data says so."
     )
 
 
@@ -35,6 +40,7 @@ def _short(value, limit=1400):
 async def run_turn(conversation, user_text, max_rounds=None):
     s = store.load_settings()
     rounds = int(max_rounds or s.get("max_tool_rounds") or 8)
+    store.set_conversation(conversation)
     store.add_message(conversation, "user", user_text)
     store.add_event(conversation, "think", "reading context", "")
     history = store.get_messages(conversation, 24)
@@ -55,7 +61,7 @@ async def run_turn(conversation, user_text, max_rounds=None):
             raw_args = fn.get("arguments")
             store.add_event(conversation, "tool", name, _short(raw_args, 600))
             try:
-                result = await tools.call(name, raw_args)
+                result = await asyncio.wait_for(tools.call(name, raw_args), timeout=TOOL_TIMEOUT)
             except Exception as exc:  # never kill the turn because one tool failed
                 result = f"{name} failed: {exc}"
             store.add_event(conversation, "result", name, _short(result))

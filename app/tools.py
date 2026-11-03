@@ -223,3 +223,13 @@ except Exception as _browser_error:  # pragma: no cover
     import sys as _sys
 
     print(f"[tools] browser tools unavailable: {_browser_error}", file=_sys.stderr)
+
+try:  # parallel research + PDF tools
+    from .research import SCHEMAS as _R_SCHEMAS, HANDLERS as _R_HANDLERS
+
+    SCHEMAS.extend(_R_SCHEMAS)
+    HANDLERS.update(_R_HANDLERS)
+except Exception as _research_error:  # pragma: no cover
+    import sys as _sys2
+
+    print(f"[tools] research tools unavailable: {_research_error}", file=_sys2.stderr)
