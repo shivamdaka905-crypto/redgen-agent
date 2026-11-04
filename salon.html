@@ -113,4 +113,31 @@ h2{font-size:clamp(26px,3.6vw,42px);letter-spacing:-1.2px;margin:12px 0 10px}
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 </script>
+<script>
+(function(){
+  document.querySelectorAll('.reveal').forEach(function(n,i){ n.style.transitionDelay=(i%6)*70+'ms'; });
+  function animate(node){
+    var raw=node.textContent.trim();
+    var m=raw.match(/^([^0-9]*)([0-9][0-9,.]*)(.*)$/);
+    if(!m) return;
+    var pre=m[1], num=m[2], suf=m[3];
+    var dec=(num.split('.')[1]||'').length;
+    var target=parseFloat(num.replace(/,/g,''));
+    if(isNaN(target)) return;
+    var t0=null, dur=1100;
+    function step(t){
+      if(!t0) t0=t;
+      var p=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-p,3);
+      var v=(target*e).toFixed(dec);
+      node.textContent=pre+(dec? v : Number(v).toLocaleString('en-US'))+suf;
+      if(p<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(x){ if(x.isIntersecting){ animate(x.target); io.unobserve(x.target);} });
+  },{threshold:.5});
+  document.querySelectorAll('.stats b, .nums b, .facts b, [data-count]').forEach(function(n){ io.observe(n); });
+})();
+</script>
 </body></html>
