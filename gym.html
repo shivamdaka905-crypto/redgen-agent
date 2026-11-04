@@ -1,0 +1,125 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Temple Gym — Imadol, Lalitpur</title>
+<style>
+:root{--ink:#0a0b0d;--panel:#12141a;--lime:#c9f24d;--grey:#9aa0ab;--line:#22252e}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:#f2f4f7;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif}
+a{color:inherit;text-decoration:none}img{display:block;max-width:100%}
+.wrap{max-width:1160px;margin:0 auto;padding:0 22px}
+.bang{font-family:"Archivo","Helvetica Neue",Arial,sans-serif;font-weight:800;letter-spacing:-2px;line-height:.92;text-transform:uppercase}
+header{position:sticky;top:0;z-index:50;background:rgba(10,11,13,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:70px}
+.brand{font-weight:800;letter-spacing:-.5px;font-size:19px}
+.brand em{color:var(--lime);font-style:normal}
+.links{display:flex;gap:24px;font-size:14px;color:var(--grey)}
+.join{background:var(--lime);color:#0a0b0d;padding:11px 22px;border-radius:999px;font-weight:800;font-size:14px;transition:transform .25s}
+.join:hover{transform:translateY(-2px)}
+</style></head><body>
+<style>
+.hero{position:relative;min-height:min(88vh,760px);display:flex;align-items:center;overflow:hidden}
+.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.42) saturate(.9)}
+.hero-in{position:relative;z-index:2;padding:70px 0}
+.tag{display:inline-block;border:1px solid var(--lime);color:var(--lime);font-size:11.5px;letter-spacing:2.6px;padding:7px 14px;border-radius:999px;text-transform:uppercase}
+h1{font-size:clamp(40px,7vw,84px);margin:22px 0 16px;max-width:15ch}
+h1 span{color:var(--lime)}
+.sub{max-width:52ch;color:#d5d9e0;font-size:17px;line-height:1.6}
+.row{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
+.btn{background:var(--lime);color:#0a0b0d;padding:15px 26px;border-radius:999px;font-weight:800;font-size:15px}
+.btn.ghost{background:transparent;color:#fff;border:1px solid #444b58}
+.strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line)}
+.strip div{background:var(--panel);padding:26px 18px;text-align:center}
+.strip b{display:block;font-size:clamp(24px,3vw,34px);color:var(--lime);letter-spacing:-1px}
+.strip span{color:var(--grey);font-size:12.5px}
+section{padding:76px 0}
+h2{font-size:clamp(26px,4vw,44px);margin:10px 0 14px}
+.lead{color:var(--grey);max-width:60ch;line-height:1.65}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:34px}
+.plan{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:26px 22px;transition:transform .3s,border-color .3s}
+.plan:hover{transform:translateY(-6px);border-color:var(--lime)}
+.plan.hot{border-color:var(--lime)}
+.price{font-size:38px;font-weight:800;letter-spacing:-1.5px;margin:10px 0 4px}
+.price small{font-size:14px;color:var(--grey);font-weight:500;letter-spacing:0}
+.plan ul{list-style:none;padding:0;margin:16px 0 20px;color:var(--grey);font-size:14.5px;line-height:2}
+.plan ul li::before{content:"✓ ";color:var(--lime)}
+</style>
+<style>
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:28px}
+.gal img{height:250px;width:100%;object-fit:cover;border-radius:16px;transition:transform .5s;filter:saturate(.95)}
+.gal img:hover{transform:scale(1.03)}
+.rev{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+.q{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;font-size:14.5px;color:#cfd4dc;line-height:1.65}
+.q b{display:block;margin-top:12px;color:#fff;font-size:13.5px}
+.faq details{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:10px}
+.faq summary{cursor:pointer;font-weight:600}
+.faq p{color:var(--grey);line-height:1.6;margin:10px 0 0}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s}
+.reveal.in{opacity:1;transform:none}
+footer{border-top:1px solid var(--line);padding:44px 0;color:var(--grey);font-size:14px}
+.wa{position:fixed;right:16px;bottom:16px;background:#25d366;color:#062a17;font-weight:800;padding:14px 20px;border-radius:999px;box-shadow:0 12px 30px rgba(37,211,102,.3)}
+@media(max-width:820px){.strip{grid-template-columns:1fr 1fr}.plans,.rev,.gal{grid-template-columns:1fr}.links{display:none}}
+</style>
+<header><div class="wrap"><nav>
+  <div class="brand">TEMPLE <em>GYM</em></div>
+  <div class="links"><a href="#plans">Plans</a><a href="#floor">The floor</a><a href="#faq">FAQ</a></div>
+  <a class="join" href="https://wa.me/9779800000000">Join on WhatsApp</a>
+</nav></div></header>
+
+<div class="hero">
+  <img src="img/g1.jpg" alt="Temple Gym floor">
+  <div class="wrap hero-in">
+    <span class="tag">Imadol, Lalitpur · Open 5 AM - 9 PM</span>
+    <h1 class="bang">Train hard.<br><span>Stay consistent.</span></h1>
+    <p class="sub">Free weights, machines, HIIT and boxing, with coaches who actually correct your form. Monthly plans with no joining fee, and no long contract.</p>
+    <div class="row"><a class="btn" href="#plans">See plans</a><a class="btn ghost" href="https://wa.me/9779800000000">Free trial class</a></div>
+  </div>
+</div>
+<div class="strip">
+  <div><b>600+</b><span>members trained</span></div>
+  <div><b>5 AM</b><span>doors open</span></div>
+  <div><b>4.7</b><span>Google rating</span></div>
+  <div><b>1 day</b><span>to start</span></div>
+</div>
+
+<div class="wrap"><section id="plans">
+  <div class="reveal"><h2 class="bang">Plans, no surprises</h2><p class="lead">No joining fee. Freeze once a year for a month, no charge. Pay via eSewa or Khalti.</p></div>
+  <div class="plans reveal">
+    <div class="plan"><h3>Monthly</h3><div class="price">1,800<small>/month</small></div>
+      <ul><li>Full gym access</li><li>Locker + shower</li><li>1 form-check session</li></ul>
+      <a class="btn" href="https://wa.me/9779800000000">Join monthly</a></div>
+    <div class="plan hot"><h3>3 Months</h3><div class="price">4,500<small>/3 months</small></div>
+      <ul><li>Everything in monthly</li><li>Diet chart</li><li>Body composition check</li></ul>
+      <a class="btn" href="https://wa.me/9779800000000">Join 3 months</a></div>
+    <div class="plan"><h3>Personal training</h3><div class="price">7,000<small>/month</small></div>
+      <ul><li>1-on-1 coach</li><li>Custom plan</li><li>Weekly progress review</li></ul>
+      <a class="btn" href="https://wa.me/9779800000000">Talk to a coach</a></div>
+  </div>
+</section></div>
+
+<div class="wrap"><section id="floor">
+  <div class="reveal"><h2 class="bang">Inside the floor</h2><p class="lead">Two levels: free weights and machines downstairs, functional and boxing upstairs.</p></div>
+  <div class="gal reveal"><img src="img/g3.jpg" alt=""><img src="img/g4.jpg" alt=""><img src="img/g5.jpg" alt=""><img src="img/g6.jpg" alt=""><img src="img/g7.jpg" alt=""><img src="img/g8.jpg" alt=""></div>
+</section></div>
+
+<div class="wrap"><section>
+  <div class="reveal"><h2 class="bang">What members say</h2></div>
+  <div class="rev reveal">
+    <div class="q">Joined for two months, lost 6 kg. The trainers actually check your form instead of sitting at the desk.<b>— Suman, Imadol</b></div>
+    <div class="q">5 AM opening is the reason I can train before work. Clean showers too.<b>— Pratima, Gwarko</b></div>
+    <div class="q">Best value in Lalitpur for the equipment they have. Boxing class is underrated.<b>— Krijan, Satdobato</b></div>
+  </div>
+</section></div>
+<div class="wrap"><section id="faq" class="faq">
+  <div class="reveal"><h2 class="bang">Questions</h2></div>
+  <details><summary>Is there a joining fee?</summary><p>No. You pay the plan amount only, and you can stop any time.</p></details>
+  <details><summary>Do you have a ladies-only hour?</summary><p>Yes, 1 PM to 3 PM daily, with a female trainer on the floor.</p></details>
+  <details><summary>Can I try before joining?</summary><p>First session is free. Message us on WhatsApp and pick a time.</p></details>
+  <details><summary>Where exactly are you?</summary><p>Imadol, Lalitpur, two minutes from the Imadol chowk.</p></details>
+</section></div>
+
+<footer><div class="wrap">
+  <b style="color:#fff">Temple Gym</b><br>Imadol, Lalitpur, Nepal<br>Open 5 AM - 9 PM · +977 98XXXXXXXX<br><br>
+  <span style="color:#5d6470">Sample design by RED GEN DEVELOPMENT</span>
+</div></footer>
+<a class="wa" href="https://wa.me/9779800000000">WhatsApp</a>
+</body></html>
